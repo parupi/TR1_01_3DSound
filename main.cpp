@@ -1,6 +1,5 @@
 #include <Novice.h>
 #include "Sound.h"
-#include <function.h>
 
 const char kWindowTitle[] = "LC1B_10_カワグチ_ハルキ_TR";
 
@@ -26,8 +25,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	bool isSourceRotate = true;
 	float roatteSpeed = 5.0f;
 
+	int soundType = CUT;
+
 	Sound* sound_ = new Sound();
-	sound_->Initialize();
+	sound_->Initialize(soundType);
 	float turningRadius = 3.0f;
 	float rotate = 0;
 
@@ -55,9 +56,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			source.center = {(cosf(1.0f * float(M_PI) * rotate / 360.0f)) * turningRadius, 0.0f, (sinf(1.0f * float(M_PI) * rotate / 360.0f)) * turningRadius };
 			rotate += roatteSpeed;
 		}
-		ALfloat SourcePos[] = { source.center.x, source.center.y, source.center.z };
-		ALfloat ListenerPos[] = { player.center.x, player.center.y, player.center.z };
-		sound_->PlayAudio(ListenerPos, SourcePos);
+		
+		sound_->PlayAudio(player.center, source.center);
 
 		///
 		/// ↑更新処理ここまで

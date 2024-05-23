@@ -1,11 +1,18 @@
 #include "Sound.h"
 
-int Sound::Initialize()
+int Sound::Initialize(int soundType)
 {
 	FILE* fp;
 	unsigned long memory = 0, length = 0;
-
-	fp = fopen("fanfare.wav", "rb");
+	if (soundType == CUT) {
+		fp = fopen("cuttingHair.wav", "rb");
+	}
+	else if (soundType == FIRE) {
+		fp = fopen("campfire.wav", "rb");
+	}
+	else {
+		fp = fopen("water.wav", "rb");
+	}
 	if (!fp) {
 		//printf("ファイルを開けない\n");
 		return 0;
@@ -112,13 +119,15 @@ int Sound::Initialize()
 	return 0;
 }
 
-void Sound::PlayAudio(const ALfloat* ListenerPos, const ALfloat* SourcePos)
+void Sound::PlayAudio(const Vector3 ListenerPos, const Vector3 SourcePos)
 {
+	ALfloat sourcePos[] = { SourcePos.x, SourcePos.y, SourcePos.z };
+	ALfloat listenerPos[] = { ListenerPos.x, ListenerPos.y, ListenerPos.z };
 	//リスナー(自分)を空間座標に配置
-	alSourcefv(source, AL_POSITION, ListenerPos);
+	alSourcefv(source, AL_POSITION, listenerPos);
 	alSourcei(source, AL_LOOPING, AL_TRUE);
 	//設定を適用
-	alSourcefv(source, AL_POSITION, SourcePos);
+	alSourcefv(source, AL_POSITION, sourcePos);
 	Sleep(30);
 }
 

@@ -6,6 +6,13 @@
 #include <al.h>
 #include <alc.h>
 #include <math.h>
+#include <function.h>
+
+enum SoundType {
+	CUT,
+	FIRE,
+	WATER,
+};
 
 #pragma comment(lib, "OpenAL32.lib")
 //fopenの警告を無視
@@ -16,8 +23,8 @@ private:
 	ALuint buffer;
 	ALuint source;
 public:
-	int Initialize();
-	void PlayAudio(const ALfloat* ListenerPos, const ALfloat* SourcePos);
+	int Initialize(int SoundType);
+	void PlayAudio(const Vector3 ListenerPos, const Vector3 SourcePos);
 	~Sound();
 };
 
